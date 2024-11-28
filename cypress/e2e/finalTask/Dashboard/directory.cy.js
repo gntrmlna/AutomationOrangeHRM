@@ -1,5 +1,5 @@
 import loginPage from "../../../pom/login/login.cy";
-
+import dashboardPage from "../../../pom/dashboard/dashboard.cy";
 /// <reference types='cypress' />
 
 describe('Testing Directory Menu in Admin Page', ()=>{
@@ -9,25 +9,31 @@ describe('Testing Directory Menu in Admin Page', ()=>{
         loginPage.inputUsername().type('Admin');
         loginPage.inputPassword().type('admin123');
 
-        cy.intercept('GET', 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/shortcuts').as('succesLogin');
+        dashboardPage.hitApiLogin().as('succesLogin');
         loginPage.typeSubmit().click();
         cy.wait('@succesLogin');
 
         loginPage.dashboard().should('have.text', 'Dashboard');
 
-        cy.get('span').contains('Directory').click();
+        dashboardPage.hitApiMessages().as('directoryPage');
+        dashboardPage.getDirectory().click();
+        cy.wait('@directoryPage');
 
-        cy.get('[placeholder="Type for hints..."]').type('Peter');
-        cy.get('[role="listbox"]').contains('Peter Mac Anderson').click();
+        dashboardPage.getEmployeeName().type('Peter');
+        dashboardPage.listBox().contains('Peter Mac Anderson').click();
 
-        cy.get('.oxd-select-text-input').eq(0).click();
-        cy.get('[role="listbox"]').contains('Chief Financial Officer').click();
+        dashboardPage.selectBox().eq(0).click();
+        dashboardPage.listBox().contains('Chief Financial Officer').click();
         
-        cy.get('.oxd-select-text-input').eq(1).click();
-        cy.get('[role="listbox"]').contains('New York Sales Office').click();
-        cy.get('[type="submit"]').click();
-        cy.get('p').contains('Peter Mac Anderson');
-        cy.get('p').contains('Chief Financial Officer');
-        cy.get('p').contains('New York Sales Office');
+        dashboardPage.selectBox().eq(1).click();
+        dashboardPage.listBox().contains('New York Sales Office').click();
+        
+        dashboardPage.hitApiEmployee().as("foundEmployee");
+        dashboardPage.submit().click();
+        cy.wait('@foundEmployee');
+
+        dashboardPage.getParagraph().contains('Peter Mac Anderson');
+        dashboardPage.getParagraph().contains('Chief Financial Officer');
+        dashboardPage.getParagraph().contains('New York Sales Office');
     })
 })
