@@ -1,22 +1,27 @@
+import forgotPassword from "../../../pom/forgotPassword.cy.js/forgotPassword.cy";
 import loginPage from "../../../pom/login/login.cy";
+import API from "../../../pom/API/hitAPI.cy";
+import getElement from "../../../pom/Element/getElement.cy";
 
 /// <reference types='cypress' />
 
 describe('Testing Forgot Password Page', ()=>{
     it('testing forgot password', ()=>{
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        loginPage.visitPage();
         loginPage.verifyLoginPage().should('have.text','Login');
-        cy.intercept('GET','https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('forgotPassword');
-        cy.get('p').contains('Forgot Your Password?').click();
+
+        API.hitApiMessages().as('forgotPassword');
+        forgotPassword.getForgotPassword().click();
         cy.wait('@forgotPassword');
-        cy.get('h6').contains('Reset Password');
-        cy.get('[name="username"]').type('gntrmf');
 
-        cy.intercept('GET','https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('successForgotPassword');
-        cy.get('[type="submit"]').click();
+        getElement.geth6().contains('Reset Password');
+        getElement.getUsername().type('gntrmf');
+
+        API.hitApiMessages().as('successForgotPassword');
+        getElement.submit().click();
         cy.wait('@successForgotPassword');
-        cy.get('h6').contains('Reset Password link sent successfully');
 
-        
+        getElement.geth6().contains('Reset Password link sent successfully');
+
     })
 })

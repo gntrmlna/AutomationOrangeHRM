@@ -1,21 +1,23 @@
 import loginPage from "../../../pom/login/login.cy";
 import dashboardPage from "../../../pom/dashboard/dashboard.cy";
+import API from "../../../pom/API/hitAPI.cy";
+import getElement from "../../../pom/Element/getElement.cy";
 /// <reference types='cypress' />
 
 describe('Testing Directory Menu in Admin Page', ()=>{
     it('directory menu in admin page', ()=>{
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        loginPage.visitPage();
         loginPage.verifyLoginPage().should('have.text','Login');
-        loginPage.inputUsername().type('Admin');
-        loginPage.inputPassword().type('admin123');
+        getElement.getUsername().type('Admin');
+        getElement.getPassword().type('admin123');
 
-        dashboardPage.hitApiLogin().as('succesLogin');
-        loginPage.typeSubmit().click();
+        API.hitApiLogin().as('succesLogin');
+        getElement.submit().click();
         cy.wait('@succesLogin');
 
-        loginPage.dashboard().should('have.text', 'Dashboard');
+        getElement.geth6().contains('Dashboard').should('have.text', 'Dashboard');
 
-        dashboardPage.hitApiMessages().as('directoryPage');
+        API.hitApiLoadEmployee().as('directoryPage');
         dashboardPage.getDirectory().click();
         cy.wait('@directoryPage');
 
@@ -28,7 +30,7 @@ describe('Testing Directory Menu in Admin Page', ()=>{
         dashboardPage.selectBox().eq(1).click();
         dashboardPage.listBox().contains('New York Sales Office').click();
         
-        dashboardPage.hitApiEmployee().as("foundEmployee");
+        API.hitApiEmployee().as("foundEmployee");
         dashboardPage.submit().click();
         cy.wait('@foundEmployee');
 
