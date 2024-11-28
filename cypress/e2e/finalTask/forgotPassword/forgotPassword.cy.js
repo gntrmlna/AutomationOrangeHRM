@@ -44,7 +44,7 @@ describe('Testing Forgot Password Page', ()=>{
         cy.wait('@forgotPassword');
 
         getElement.geth6().contains('Reset Password');
-        getElement.cancel().click();
+        forgotPassword.cancel().click();
         loginPage.verifyLoginPage().should('have.text','Login');
     })
 
