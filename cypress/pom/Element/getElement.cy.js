@@ -7,6 +7,10 @@ export default class getElement{
         return cy.get('[type="submit"]');
     }
 
+    static cancel(){
+        return cy.get('[type="button"]')
+    }
+
     static geth6(){
         return cy.get('h6');
     }

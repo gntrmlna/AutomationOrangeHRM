@@ -15,10 +15,6 @@ export default class dashboardPage {
         return cy.get('p');
     }
 
-    static submit(){
-        return cy.get('[type="submit"]');
-    }
-
     static getEmployeeName(){
         return cy.get('[placeholder="Type for hints..."]');
     }
