@@ -31,11 +31,11 @@ describe('Testing Directory Menu in Admin Page', ()=>{
         dashboardPage.listBox().contains('New York Sales Office').click();
         
         API.hitApiEmployee().as("foundEmployee");
-        dashboardPage.submit().click();
+        getElement.submit().click();
         cy.wait('@foundEmployee');
 
-        dashboardPage.getParagraph().contains('Peter Mac Anderson');
-        dashboardPage.getParagraph().contains('Chief Financial Officer');
-        dashboardPage.getParagraph().contains('New York Sales Office');
+        getElement.getParagraph().contains('Peter Mac Anderson');
+        getElement.getParagraph().contains('Chief Financial Officer');
+        getElement.getParagraph().contains('New York Sales Office');
     })
 })
